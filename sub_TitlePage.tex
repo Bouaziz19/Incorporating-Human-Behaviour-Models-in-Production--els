@@ -1,0 +1,145 @@
+%% 
+%% Copyright 2007-2020 Elsevier Ltd
+%% 
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%% 
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%% 
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%% 
+
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+%%
+%% 
+%%
+%% $Id: elsarticle-template-num.tex 190 2020-11-23 11:12:32Z rishi $
+%%
+%%
+%\documentclass[preprint,12pt]{elsarticle}
+\documentclass[final,12pt, 3p, times]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%%
+
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{tipa}
+\usepackage{cancel}
+\usepackage{ulem}
+\usepackage{pgf}
+\usepackage{silence}
+\usepackage{amssymb}
+\usepackage{lineno}
+\usepackage{enumitem}
+\usepackage{lineno,hyperref}
+\usepackage{natbib,stfloats}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{latexsym}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{rotating}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage[caption=false]{subfig}
+\usepackage[ruled,vlined,algo2e]{algorithm2e}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usepackage{pgf}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{cancel}
+\pgfplotsset{compat=1.3}
+    \pgfplotstableread{
+        0 0          -5.2
+        1 0          -3.78
+        2 0        20.16
+        3 0        45.16
+        4 0        19.68
+        5 0        60.08
+        6 0         15.99
+        7 0         59.46
+        8 0         -2.46
+    }\dataset
+\usepackage{setspace}
+\usepackage{lineno}
+
+
+
+\journal{International Journal of Production Economics}
+
+\begin{document}
+
+\begin{frontmatter}
+
+
+\title{Incorporating Uncertain Human Behaviour in Production Scheduling for Enhanced Productivity in Industry 5.0 context}
+
+\author[inst1]{Nourddine Bouaziz}
+\author[inst2]{Belgacem Bettayeb}
+\author[inst1]{M'hammed Sahnoun}
+\author[inst3]{Adnan Yassine}
+
+\affiliation[inst1]{organization={CESI LINEACT},%Department and Organization
+            addressline={80 avenue Edmund Halley}, 
+            city={Saint-Étienne-du-Rouvray},
+            postcode={76800}, 
+            % state={State One},
+            country={France}
+            }
+\affiliation[inst2]{organization={CESI LINEACT},
+            addressline={8 Boulevard Louis XIV},
+            postcode={59800},
+            city={Lille},
+            country={France}
+            }
+\affiliation[inst3]{organization={LAMH, Le Havre University Normandy},
+            addressline={25, rue Philippe Lebon},
+            postcode={76600},
+            addressline={Le Havre},
+            country={France}
+            }
+
+
+\begin{abstract}
+Human-centred production systems are of increasing interest for researchers, especially with the advent of the Industry 5.0 paradigm. Most research into production scheduling has long neglected the specific roles and  unpredictable behaviours of human workers in a production system, treating them as machines with a deterministic behaviour. This work studies the impact of human operational behaviour on the performance of a production system and proposes an optimization model to allocate workers profiles to machines. We modeled punctuality profile as a Markov chain representing a worker's productive and non-productive states. We developed a simulation process based on multi-agent system (MAS) paradigm to test the effectiveness of the proposed model and to measure the impact of workers' behaviors and their assignments to different workstations on the productivity of the workshop. A non-linear programming model is also proposed to provide the optimal assignment of workers to machines while maximizing the throughput of a dual-resource constrained flow-shop production system for a given mix of production. The results obtained highlight the significant impact of human operator behavior on the performance of a production system. The findings demonstrate the importance of incorporating human behavior models into the decision-making process for assigning workers to workstations based on their operational profiles.
+\end{abstract}
+ 
+\end{frontmatter}
+\end{document}

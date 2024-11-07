@@ -1,0 +1,622 @@
+Incorporating Uncertain Human Behavior in Production
+Scheduling for Enhanced Productivity in Industry 5.0 Context
+ 
+Abstract
+Human-centered production systems are of increasing interest to researchers, especially with the advent of the Industry 5.0 paradigm. Most research into production scheduling has long neglected human workers’ specific roles and unpredictable behavior in a production system, treating them as machines with deterministic behavior. This work studies the impact of human operational behavior on the performance of a production system and proposes an optimization model to allocate workers’ profiles to workstations. We modeled the punctuality profile as a Markov chain representing a worker’s productive and non-productive states. We developed a simulation process based on the multi-agent system (MAS) paradigm to test the effectiveness of the proposed model and to measure the impact of workers’ behaviors and their assignments to different workstations on the productivity of the workshop. A non-linear programming model is also proposed to provide the optimal assignment of workers to workstations while maximizing the throughput of a dual-resource-constrained flow-shop production system for a given mix of production. The results obtained highlight the significant impact of human operator behavior on the performance of a production system. The findings demonstrate the importance of incorporating human behavior models into the decision-making process for assigning workers to workstations based on their operational profiles.
+Keywords: Human behavior, Markov Chain Modeling, Worker Assignment, Production
+Scheduling, Nonlinear Optimization, Simulation
+ 
+1.	Introduction
+Over the past decade, the emergence of Industry 4.0 has heralded a new era in industrial practices. Industry 4.0 has paved the way for developing smarter and self-sufficient systems by
+Preprint submitted to International Journal of Production Economics	April 30, 2024
+seamlessly integrating digital technologies with physical systems. However, this transformation requires human operators to adapt to the production systems [1, 2, 3]. This industrial revolution has been driven by improving profitability through increased product and/or service quality and process efficiency, achieved through various digital technologies [4]. As a result, the manufacturing industry has undergone a significant transformation due to digitalization and has invented new organizational and managerial methods at all stages of the product life cycle, from product design to its disposal [5]. This revolution is founded on data collection, analysis, and intelligent decision-making principles, made possible by cutting-edge technologies such as big data, sensors, cloud computing, and cyber-physical systems [6]. It allows the acquisition of more knowledge about production tools, processes, and their interaction with human operators [7]. In any industry, accurate knowledge of human behavior provides a significant advantage in predicting future system states and optimizing decision-making at the strategic, tactical, and operational levels [8]. Therefore, although Industry 4.0 has introduced innovative technologies that improve production efficiency, new challenges have emerged, focusing on issues such as human well-being, sustainability, and resilience [1].
+In fact, the industrial sector has become increasingly dependent on s and automatic machines to perform repetitive, precise, and/or low-value-added tasks. However, recent studies have shown that successfully integrating technologies with human workers is crucial to realizing their full potential benefits [9, 10, 11]. Along with other technical factors, the interaction between humans and smart tools and management systems plays a critical role and must be considered and modeled at the operational management level of these heterogeneous systems. Furthermore, industrial organizations face a dual challenge, as they must deal with both low attractiveness and high turnover rates [12]. Despite serving as the cornerstone of economies worldwide, these sectors struggle to retain skilled talent, thereby hindering their growth and stability. Research indicates that classical production systems, which impose numerous rules on workers, stifle worker innovation and elevate turnover levels [13]. For these organizations, it is imperative to ensure optimal productivity, workplace safety, and high levels of worker motivation.
+As a result, there is a justified, almost urgent, shift towards Industry 5.0, which seeks to address the shortcomings of Industry 4.0. The ultimate goal is to use technologies in an intelligent way, placing humans at the forefront of the system while being mindful of the sustainability of the planet [14, 15]. The human-centric aspect of Industry 5.0 can be ensured through various means, including prioritizing human involvement in the decision-making process, fostering collaborative working methods, and implementing intelligent and tailored scheduling systems.
+This paper delves into the development of human-centric production scheduling, where organizations endeavor to adapt systems to align with human behavior. The objective of this work is twofold. First, we aim to prove the benefit of integrating a model of human behavior into the decision-making process of a dual-resource-constrained scheduling problem to reduce the impact of potential performance-degrading events resulting from such behavior. Secondly, our goal is to propose a mathematical model able to provide an optimal allocation of workers of different profiles to machines while maximizing the throughput of the production system in a fixed time frame.
+This work’s main contributions include:
+•	Development of a multi-agent-based simulation model integrating Markov chain-based modeling of human behavior profiles.
+•	Simulation-based demonstration of the importance of the composition of behavior profiles (homogeneous and heterogeneous) of workers in enhancing the performance of the production system while respecting human nature.
+•	Development of a non-linear optimization model that considers various heterogeneous behavioral profiles of workers.
+•	Implementation and comparison of two optimization methods for worker allocation to machines: simulation-based and non-linear programming optimization.
+The rest of the article is structured as follows. Section 2 provides a comprehensive literature review encompassing various perspectives on how human behavior is approached within the industry. Section 3 details the approach adopted to model and simulate human behavior and shows its impact on the productivity of a dual-resource-constrained flow-shop production system. The first step of the proposed approach, the modeling and simulation of human behavior, is presented with its results in Section 3.1. The mathematical model proposed for optimizing the scheduling problem that incorporates human behavior is detailed in Section 3.2. Then, Section 4 focuses on experimentation and discussion of the results. Section 5 gives some managerial insights highlighted from the obtained results. Finally, Section 6 presents the main conclusions and perspectives of this work.
+2.	Literature review
+To explore the literature on human behavior modeling and integration in the industry, we based our research on the Scopus database, followed by Google Scholar research to include some additional work from the snowball effect. We used the following keywords for the initial article selection queries: Industry 5.0, human-centered, dual-resource production system, human behavior modeling, stochastic human behavior modeling, and worker assignment problem. In this literature review, we first explored the human-centric aspect of Industry 5.0, the modeling of human behavior, and the importance of taking such models into account. We focused later on dual-resource production systems and work assignment problems, which allowed us to position our contribution among a list of articles addressing the incorporation of human factors into production system optimization.
+Industry 5.0, a concept coined by the European Commission, focuses on the essential role of human operators. Unlike Industry 4.0, this shift emphasizes the importance of humans in the industrial environment [15]. Highly advanced technological systems, such as s, smart buildings and complex organizational structures, work with humans to accomplish repetitive and strenuous tasks. This collaboration is intended to promote economic and environmental sustainability and resilience and social sustainability that contribute significantly to the company’s resilience [16]. This can be ensured by providing workforce development initiatives and keeping the central place of humans in industry, which leads to a robust and efficient workforce. Tasks that require creativity and perception-based skills remain in the domain of humans, creating a partnership or connection between humans and intelligent technology. A more complete review of social sustainability can be found in [17].
+Consequently, human behavior modeling will play a pivotal role in Industry 5.0, continuing to attract the attention of social science and humanities researchers and industrial engineers [18]. For example, in the field of human-robot collaboration, [19] proposed a technique to predict human activity patterns. This approach enables quick identification of when the human will require a particular collaborative operation, thereby allowing a robot to perform other autonomous functions simultaneously. The prediction algorithm uses a higher-order Markov chain (with memory) and was tested in a scenario involving a dual-arm robot used for a collaborative assembly task of small parts. In their study, [20] explored the scheduling of tasks for a collaborative robotic assembly cell to strike a balance between the work cycle and human fatigue. For a more comprehensive overview of the latest research on human-robot interactions in the industrial sector, the reader can refer to [21, 22, 23, 24].
+Recognizing the critical role that the human factor plays in modern industrial systems, much research is currently involved in modeling and simulating human behavior to improve human well-being at work and to prevent possible negative effects of certain behaviors on system performance in terms of cost, quality, and safety [25]. Thus, since human behavior is influenced by several exogenous parameters dependent on the surrounding context, different considerations for modeling human behavior can be found in the literature in several domains: i) ergonomics [26, 27, 28, 29], ii) human reliability [30, 31, 32], iii) cybersecurity [33, 34, 35, 36] and iv), and industry [37, 38, 39]. In a recent survey paper on the consideration of workers’ differences in production systems modeling and design [40], the authors reported that 74% of the selected works deal with the problem of assignment of work.
+Based on [40], and after adding filters and the snowball approach of the selected articles, we summarise in Table 1 the most relevant studies that address the problem of work assignment that include a specific aspect of human behavior, such as skill level, efficiency, or punctuality. The comparison of the work presented in Table 1 reveals that 86% of the papers address the worker assignment problem. Among them, only two papers ([41] and [42]) consider the stochastic aspect of human behavior. In general, only four works properly consider the uncertain behavior of humans in industrial systems. Regarding the methods used, approximately 48% of the papers use metaheuristics and 52% use exact methods. There are 24% of papers that deploy both resolution approaches simultaneously. Only 14% utilize simulation, despite its powerful contributions to representing uncertain behavior. Human behavior is considered differently in each work. Among the explored research works, the skill level is considered at 61%, capability at 14%, flexibility at 10%, and punctuality at 14%. It should be noted that only one of the articles dealing with punctuality aimed to improve the system through simulation; the others did not consider any optimization approach to enhance the production system. Recent literature reviews have underscored the significance of scheduling problems that incorporate human operators, including the work of Dhiflaoui et al. [43] , which presents a comprehensive survey of dual source constants and classifies existing research. The author emphasizes the need to develop more realistic models. More recently, Geurtsen et al. [44] examined several research endeavors to integrate workers into scheduling problems. Additionally, Battini et al. [15] provide an intriguing literature review on job rotation scheduling with consideration of human factors . They identify scheduling as a key aspect of Industry 5.0’s human-centric approach, which emphasizes the importance of considering human factors in the design and operation of manufacturing systems. Hashemi et al. [45] offer an insightful overview of papers dealing with dual resource problems and highlight the importance of prioritizing the realistic scheduling of human operators.
+In the industrial domain, [46, 47, 48] notice that human behavior needs to be more explicitly considered in scheduling models. However, most of the scheduling models presented in research have only considered the skill aspect of human behavior and analyzed how it affects the performance of production systems. [49] confirms that the complex and uncertain behavior of a human worker, it seems appropriate to model such behaviors as stochastic processes to rationalize their study and analysis. However, little research has embedded the stochastic aspect of human behavior in the modeling of socio-technical systems. For instance, [50] proposed a hidden semiMarkov model (HSMM) to model human behavior in production systems. The applicability of the proposed model has been validated by simulation. [51] has proposed a new framework that integrates the human factor into production and logistics systems. It combines different levels of decision-making to improve performance, quality, and well-being. To take into account social relationships between workers, [52] developed a Markov chain-based worker behavior model. The results highlighted the impact of such relationships on individual performance.
+The Markov chain paradigm is also used in [53] to model customer profiles based on the ERG
+(Existence, Relatedness, Growth) theory. Proposed in 1969 by Alderfer, the ERG theory puts emphasis on the needs of individuals in a hierarchical order. This theory is based on Maslow’s work, which reduced the number of needs to three levels. However, the ERG theory differs from Maslow’s in three ways: (i) it allows for multiple levels to be pursued at the same time; (ii) it allows for different orders of needs for different people; and (iii) if the highest level of needs remains unsatisfied, a person may regress to a lower level of needs that are more easily fulfilled, with the hierarchy of needs represented by states. In this context, the different states of the Markov chain correspond to different levels or categories of customer needs. The transition probabilities between states reflect the likelihood of customers moving from one need category to another over time. By analyzing observed transitions and estimating transition probabilities, the Markov chain model can provide information on customer behavior and the dynamics of their needs. Even if this approach is modeling an important aspect of human behavior, it seems not applicable directly in a workshop environment, at least due to the difference in the time scale. However, the use of the Markov chain demonstrates its flexibility and efficiency in the modeling of human
+behavior.
+Therefore, accurate behavioral models of production resources are essential to optimize the production system and minimize its operating cost. In fact, these models can be very useful in static and dynamic production planning and scheduling to anticipate and reduce the effect of operational hazards caused by the fortuitous behavior of these resources, which is the case with human operators. Moreover, such models are also essential for predicting the behavior of the system as a whole and its ability to adapt to and overcome external disturbances.
+Through their review of the literature, [25] found that most research work developing models of human behavior in the industrial or social environment uses simulation[comment], e.g. ex. [54], or real systems to validate their models. Although the human being has often been taken into account in the various operations management models in the literature, especially regarding the deterministic components of human’s behavior, such as fatigue [27, 54], efficiency in performing tasks [55, 56], and experience[57]. Few recent works propose stochastic models to represent human behavior. For example, Lucchese et al. [49] model the processing time of each worker with a normal distribution, while Ayough et al. [41] consider the diverse stochastic skills of workers. An aspect often overlooked in research is the recognition that human behavior and performance can vary significantly from one worker to another, with particular attention to the unpredictable nature of human behavior, including punctuality during work.
+•
+•
+•
+•
+Table 1 compares our contribution to other works considering the human factor in industry. It highlights how our solution is the sole contribution to addressing the punctuality problem with a stochastic approach and using an exact method of resolution and simulation techniques.
+	Worker Assignment	Stochastic	Metaheuristics	Exact method	Simulation	Aspect
+[58]	✓			✓		Skill levels
+[59]	✓					Skill levels
+[60]					✓	Skill levels
+[61]	✓		✓			Skill levels
+[62]	✓		✓			Skill levels
+[63]	✓		✓			Skill levels
+[27]	✓		✓		✓	Skill levels
+[64]	✓			✓		Skill levels
+[65]	✓		✓	✓		Skill levels
+[66]	✓			✓		Skill levels
+[67]	✓		✓	✓		Skill levels
+[68]	✓		✓			Skill levels
+[41]	✓	✓		✓		Skill levels
+[69]	✓		✓	✓		Capability
+[70]	✓			✓		Capability
+[71]	✓		✓	✓		Capability
+[72]	✓		✓	✓		Flexibility
+[73]	✓			✓		Flexibility
+[74]		✓				Punctuality
+[75]		✓				Punctuality
+[42]	✓	✓			✓	punctuality
+This work	✓	✓		✓	✓	punctuality
+Table 1: Summary of research work considering humans in industry
+3.	Proposed approach
+To effectively examine the correlation between human behavior and productivity and subsequently improve the assignment of workers to workstations, we perform the process illustrated in Figure 1. A dual resource flow-shop production system is considered, where a machine and a human operator are required for the execution of any task. Unlike traditional flow shops relying solely on machines, this model introduces workforce availability as an additional constraint. This dual resource constraint is a major challenge in scheduling tasks in this type of workshop, and the versatility of workers complicates it even further. In addition to machine availability and capabilities, the scheduler must consider worker availability and skills [43]. We chose this production system as an application because even though it has been extensively studied, it remains a system rich in the challenging problems [52, 43]. It also aligns with Industry 5.0 by involving human behavior modulation, a key challenge [15]. Hybrid human-machine systems offer flexibility and cost benefits but introduce scheduling difficulties due to dynamic interactions and optimizing mixed resource allocation [52, 76].
+In the first phase, the behavior of human operators is modeled using a Markov chain whose states represent the different places an operator can be in the workshop. Different and diverse behavioral profiles of workers are affected by various factors (such as fatigue, experience, age, etc.), which we aggregate into a single factor observed through a Markov model reflecting the changes in productivity states of each profile. These worker profiles are classified according to their productivity state, which is directly linked to their physical location on the production floor. To model these states, a Markov chain is used, delimiting ’productive zones’ (PZs), e.g., workstations, where workers actively contribute to the production, and ‘non-productive zones’ (NPZs), e.g., the cafeteria, where their activities do not contribute to productivity. This approach makes it possible to represent, and analyze how workers move from one state to the other, providing insight into their productivity patterns and spatial behavior within the workspace. The variability within NPZs lies in the likelihood of workers remaining in these zones, which influences the length of their stay. For example, in zones such as smoking zones , individuals have a variety of behaviors: some refrain from smoking, others smoke occasionally, and still others smoke frequently. These behaviors represent the distributions of visit frequencies, departure frequencies, and lengths of stay in the NPZ. We do not assume that there is a specific zone that is particularly more attractive than others for all profiles , but that each profile may have its own more attractive NPZ. With regard to the impact on productivity, the NPZ that degrades it the most is also different from one profile to another because it will be the one that has the highest value of average stay time weighted by visiting frequency.
+Using the Markov chain behavior model, the second phase consists of two methods to optimize the allocation of operators to workstations. The first method uses a simulation approach based on a multi-agent system (MAS) architecture, and the second method consists of solving a non-linear programming optimization model. The third phase contains the test and comparison of the two methods.
+ 
+3.1.	Simulation method
+3.1.1.	MAS model
+To investigate and quantify the impact of human behavior on production system productivity, we developed a multi-agent systems (MAS) based simulator. The MAS comprises autonomous agents representing different elements of the real system, interacting with each other. Three interconnected agents, namely “Worker”, “Job”, and “Zone”, make up the simulator (see Figure 2).
+Each agent’s composition and role are defined as follows:
+• Worker: this agent interacts with all other agents because a worker executes a job while being at a workstation and moves between zones (productive or non-productive). It is important to note that a worker’s presence in a NPZ area can sometimes be unrelated to their behavior, but caused by an unexpected external event (e.g., injury caused by a machine or a safety device failure). This is why we model it using stochastic parameters to accurately characterize its frequency and duration. The worker’s parameters are:
+–	Last zone: contains the index of the last zone visited by the worker before updating his
+location.
+–	Profile: the movement patterns of workers between productive and non-productive zones are encapsulated within worker profiles, which are represented by a transition probability matrix -Markov chains-. This matrix defines the probabilities of movement between zones based on predefined profiles, which may vary among individual workers.
+–	Next zone: index of the next zone to be visited by the worker.
+–	Methods: is to operate the product on the workstation when he is present and the product is ready. According to the Markov chain model associated with his behavioral profile, this agent moves from zone to zone.
+•	Zone: this agent is a reactive agent representing workstations (WS) and non-productive zones (NPZ) located in the workshop. Each ’zone’ agent is characterized by the following:
+– Type: classifies the zone as productive (a workstation) or non-productive (e.g., infirmary, restaurant, etc.)
+*	Productive zone: known as the workstation, constitutes the working environment for employees. Workstations may consist of simple or complex tools and machinery, with the expectation that they can be operated by a single human worker
+*	non-productive zone: encompasses all areas where the operator is not actively engaged in work, such as break rooms, restaurants, smoking areas, and similar
+spaces.
+– Status: status of the zone, which may be free or occupied.
+•	Job: this agent represents the products that workers need to process as each product passes through all workstations on the production floor. The following parameters characterize each job:
+–	Index: the current or last workstation visited by the “Job” agent (product)
+–	PT: a list of processing times at each required workstation when the worker is present
+ 
+Figure 2: Multi-agent model’s agents and their interactions
+3.1.2.	System and human behavior modeling
+We consider the following production system composed of a set of M workstations (WS) denoted by WS = {WS m,m = 1,2,.., M} associated with a set of workers (WK) denoted by WK = {WKk,k = 1,2,.., K}. Each workstation corresponds to a machine that needs the presence of a worker while processing a task. Each job (product) is automatically transferred to the subsequent required workstation until it completes all the necessary processing steps. Let PT be the vector representing the processing times of all workstations: PT = [PT1,.., PTm,.., PTM] and let AP be the vector representing the assigned workers with different behavior profiles to workstations: AP = [AP1,..., APk,..., APK]. In addition to workstations, we also define a set of Z zones within the workshop where workers can go and stay for a while, making their workstation and the task that is performed on standby until they return. These zones are called “non-producible zones” (NPZ) and are denoted by NPZ = {NPZz,z = 1,2,..,Z}. The NPZ represents the areas where a worker is in a state of non-productive activity, such as a break, personal call, lunch, or simply an unjustified absence from the workstation.
+Since a worker’s next state (zone and action) primarily depends on their current state, it is possible to model their behavior as a Markov process, which is a powerful mathematical tool for representing stochastic and uncertain phenomena. We model the behavior of workers using a classical Markov chain of Z + 1 states that correspond to the possible locations where a worker can go and stay. For each worker, the possible states (locations) belong to two classes: i) one of the M “productive” states, which corresponds to the workstation to which the worker is assigned (pk11), and ii) Z “non-productive” states that correspond to the NPZ (see Figure 3).
+ 
+Figure 3: Productive and non-productive States of Markovian-Based Human Behavior Model
+We assume that each worker is assigned to a unique workstation, which does not change during the time horizon considered. Workers can only move back and forth between their designated workstation and the set of NPZ. The transition probabilities between each workstation and the non-productive zones are defined by the transition matrix Pk relative to the kth generic profile of workers’ behaviors .
+
+P =  k
+m	pk11
+pk21
+pk31
+...
+pkz1
+...	pk12
+pk22
+pk32
+...
+pkz2
+...
+pk(Z+1)2	pk13
+pk23
+pk33
+...
+pkz3
+...
+pk(Z+1)3	...
+...
+...
+...
+...
+...
+...	pk1z′
+pk2z′
+pk3z′
+...
+pkzz′
+...
+pk(Z+1)z′	...
+...
+...
+...
+...
+...
+...	pk1(Z+1)
+pk2(Z+1) pk3(Z+1)
+...
+pkz(Z+1)
+...
+pk	
+	(1)
+ pk(Z+1)1								
+						(Z+1)(Z+1)	
+As shown in Equation (1), (pk11) represents the probability that a worker with profile k will remain at the workstation to which he/she is assigned, let’s say WSm, p ,..,Z+1} represents the probability that a worker with profile k moves from workstation WSm to a non-productive zone NPZz, pkz1 represents the probability that a worker moves back from a non-productive NPZz to his workstation WSm, and pkzz′, ∀z,z′ ∈ {2,...,Z +1} represents the probability of moving from NPZz to NPZz′.
+3.1.3.	Simulation procedure
+The algorithm deployed is presented in Algorithm 1. When the simulation starts, three variables are initialized to zero: the simulation clock tick, the number of completed jobs NFJ, and the effective processing times of jobs on workstations EPT jm. The state of the entire system is updated at each new tick until the fixed time horizon. To update the status of all agents at each time step (tick), a specific process is followed.
+First, all workstations are activated, and their availability as well as associated workers and operations within the input buffers InBk are assessed. Once these conditions are met, the value of the variable EPT jm increases. If EPT jm is equal to PTm, it indicates that the job has been completed on the workstation WSm. The job is then moved to the input buffer InBk+1 if the current workstation is not WSK. However, if the current workstation is WSK, the completed job j is transferred to the output buffer OutB of that workstation (last workstation). If the current workstation is WS1, a new job is generated.
+During this process, the worker is not present all the time on his workstation but follows the Markovian process to move between the productive zone (his workstation) and non-productive zones (break, nursery, lunch). These zones serve as an example used to model various reasons for worker absence from the workstation. The workstation is not productive when the worker is absent. In this model, the production operations can be interrupted when the transition to a new position is generated by the Markov chain model. 
+ 
+Algorithm 1: Simulation algorithm
+ 
+Data:
+WK = {WK1,WK2,..,WKK}: Set of workers;
+WS = {WS1,WS2,..,WS M}: Set of workstations; J = {1,.., J}: Set of jobs indices;
+K = {1,.., K}: Set of workers’ (workstations) indices;
+PT = (PTm : m ∈ M): Processing times vector;
+InB = (InBm : m ∈ M): Workstations’ input buffers;
+OutB: Output buffer of completed jobs (buffer of the last workstation);
+Horizon: Simulation horizon;
+EPT jm: the effective processing time of the job j on the Workstation m; tick: unit of time that passes between iterations of the simulation ;
+Result:
+NFJ: Number of finished jobs ;
+Productivity: Productivity rate ;
+ 
+3.2.	Optimization model
+In this section, we introduce our non-linear optimization model designed to identify the most efficient worker-to-machine assignment, ultimately maximizing productivity for the dual-resourceconstrained flow-shop production system. The principle assumptions of our model are the following:
+1.	The time required to move a product between two successive workstations is negligible
+2.	No setup time is required to switch between product types on all workstations
+3.	Each workstation is assigned only one worker and each worker is assigned to at most one workstation .
+4.	Once a worker is assigned to a workstation, their assignment remains unchanged throughout the entire scheduling period
+5.	The number of workers available is equal to or greater than the number of workstations
+6.	Operations can be interrupted without incurring any additional time to restart them.
+3.2.1.	Notations
+	Sets
+M	set of workstations (productive zones), with |M| = M
+T	set of product types with |T | = T
+K	set of workers, with |K| = K
+P	set of worker profiles available on the job market, with |F | = P
+	Indices
+m	indices of workstations, with m ∈ {1,2,.., M}
+j	indices of jobs, with j ∈ {1,2,.., J}
+t	indices of job types (product) , with t ∈ {1,2,..,T}
+k	indices of workers, with k ∈ {1,2,.., K}
+p	indices of profiles, with p ∈ {0,1,2,.., P − 1}
+	Parameters
+H	time horizon of production
+I	production mix, with I = (I1, I2,.., It,.., IT ) where It is the minimum demand for the type
+of product t .
+fk,p	a binary variable indicating whether the worker k belongs to the profile p, where each worker can get only one profile Pp∈P fp,k = 1 ∀k ∈ K
+λ1p	average duration of the working time period of the workers of the profile p
+λ0p	average duration of the absence time period of the workers of the profile p
+τt,m	reference processing time of the product type t on workstation m
+αk	average continuous working time of the worker k
+γk	average absence time of the worker k after a period of working time
+J	the maximum number of products (all types combined) that can be produced:
+		
+X
+		m∈M	 to x
+HV	a high-value number
+Decision variables
+Xt,j	a binary variable indicating if the j-th job is a product of type t
+Yj	a binary variable indicating the launch of the j-th job, i.e. equals 1 if the product is assigned to a product type, 0 otherwise: Yj = Pt∈T Xt,j ∀ j ∈ J
+Wk,m	a binary variable indicating if the worker k is assigned to the workstation m
+Nj,m	the number of interruptions (due to the absence of worker) to the job j on workstation m
+Um	the average continuous productivity time (up-time) of the workstation m:
+Um = Pk∈K αk × Wk,m	∀m ∈ M
+Dm	the average continuous non-productivity time (downtime) of the workstation m:
+Dm = Pk∈K γk × Wk,m	∀m ∈ M
+Πj,m	the effective processing time of the job j at the machine m. It includes the real processing time and the absence time of the operator:
+Π1,m = N1,m × Dm + Pt∈T(Xt,1 × τt,m)	∀m ∈ M
+Πj,m = (Nj,m − Nj−1,m) × Dm + Pt∈T(Xt,j × τt,m)	∀ j = 2..J	∀m ∈ M
+C j,m	the completion time of the job j on workstation m
+ΠCj,m	the cumulative processing time to the job j at the machine m
+J	 t∈T 	t m	t,m, where ⌈x⌉ is the smallest integer greater than or equal
+
+ 
+	 (Xt,j × τt,m)	∀ j = 2..J	∀m ∈ M
+ 
+Figure 4: Mathematical model’s data and variables and their links
+3.2.2.	Problem formulation
+The dual-resource-constrained flow-shop production system worker assignment and scheduling problem are formalized by the Mixed Integer Nonlinear Programming model:
+X
+	obj: Maximize	Yj	(2)
+j=1..J
+The objective of our model is to maximize the productivity of the production system across a finite time horizon for all types of products. Therefore, the objective function in Eq. (2) aims to Maximize the total number of finished products during the considered time horizon. Alternatively, the objective function could be to minimize the makespan of a given number of demanded products. However, we choose to Maximize the throughput to facilitate comparison with the simulation part and obtain a stable comparison between different scenarios.
+This objective function is subject to the following constraints:
+X	
+	Wk,m = 1	∀m ∈ M
+k∈K
+X	(3)
+	Wk,m ≤ 1	∀k ∈ K
+m∈M	(4)
+	Xt,j ≤ It	∀ j ∈ {1,..., J}	∀t ∈ T
+X	(5)
+	Xt,j ≥ It	∀t ∈ T
+j=1..J	(6)
+	Yj ≤ Yj−1	∀ j ∈ {2,..., J}	(7)
+ΠCj,m
+Nj,m + 1 ≥	 	∀ j ∈ {1,..., J}	∀m ∈ M Um	(8)
+ΠCj,m
+Nj,m + 0.001 ≤	 	∀ j ∈ {1,..., J}	∀m ∈ M Um	(9)
+C1,1 = Π1,1	(10)
+C j,m ≥ Yj × Πj,m + C j−1,m	∀ j ∈ {2,..., J}	∀m ∈ M	(11)
+	C j,m ≥ Yj × Πj,m + C j,m−1	∀ j ∈ {1,..., J}	∀m ∈ {2,..., M}	(12)
+	C j,m ≤ H	∀ j ∈ {1,..., J}	∀m ∈ M	(13)
+Constraints (3) and (4) ensure that the model complies with Assumption 3 . Constraint (5) ensures that the production mix is respected by producing only types of products t ∈ T such as It >= 1.
+Constraint (6) ensures that the minimum production mix is respected. Constraint (7) ensures a strict production sequence, where the product j is not produced unless the previous product j − 1 has already been produced, by allowing the indexing of manufactured products in ascending order. Non-linear constraints (8) and (9) link the actual duration of each job on a given workstation with the number of interruptions, the average uptime, and the average downtime, which depend on the profile of the worker assigned to the workstation. Finally, constraints (10), (11), (12), and (13) guarantee that precedence constraints are respected between operations of the same product and that the last operation of the last planned product is completed before the end of the planning horizon H.
+Figure 4 illustrates the different constraints and the relationship between the parameters and decision variables of the model. To demonstrate the functioning of the model, we developed an illustrative model, which will be explained in the following section.
+3.2.3.	Illustrative example
+In this example, we have a three-step flow-shop production system with five workers, where
+M = 3 and K = 5. The system is capable of manufacturing three types of products (T = 3) with varying processing times on each workstation (machine). The workers’ behaviors are categorized into three generic behavioral profiles (P = p1, p2, p3), which are characterized by their average
+absence times (λ0p1,λ0p2,λ0p3) and average working times (λ1p1,λ1p2,λ1p3). For each profile p, λ0p and λ1p represent the expected sojourn times in “non-productive” states/zones (NPZs) and the “productive” state (workstation), respectively, calculated from the Markov transition probability matrix of the corresponding profile. The parameters γk and αk for each worker k are randomly generated
+using exponential distributions with parameters Pp∈P fk,pλ0p and Pp∈P fk,pλ1p, respectively. Figure 5 shows the optimal solution, which presents the optimal values of all decision variables and the ob-
+jective function. In the matrix Xt∗,j, we observe that X 	0 and X 	1, indicating
+that product (job) 1 belongs to type 3. Consequently, the types of ordered products, denoted as j1 to j7, are respectively t3, t3, t3, t1, t2, t1, t3. All Y∗j for all j = j1,.., j7 are equal to 1, signifying
+that all products will be manufactured. All Wk∗,m are set to 0 except Wk∗2,Ws3, Wk∗3,Ws2, and Wk∗5,Ws1, which are set to 1. This indicates that workers k2, k3, and k1 have been assigned to workstations Ws1, Ws2, and Ws3 respectively. As a result, Um∗ and D∗m for workstation m take values of αk and γk respectively, for the worker k assigned to them through the decision variable Wk∗,m. Using the processing time τt,m and decision variable Xt∗,j, we calculate ΠCj,m∗ , the cumulative processing time for job j at workstation m. N∗ j,m represents the number of interruptions at workstation m after completing job j. The values of N∗j,m are calculated based on Um∗ and ΠCj,m∗ . With this information, we can calculate the effective processing time Π∗j,m and the completion time C∗j,m for the optimal solution in our illustrative example, resulting in Cmax∗ = 26.
+The matrix X∗ indicates that, at most, seven products can be scheduled within the imposed time horizon, comprising 2 products of type t1, 1 product of type t2, and 4 products of type t3. The optimal assignment of workers is provided in matrix W∗, where workers k2, k3, and k5 are assigned to workstations WS3, WS2, and WS1, respectively. The Gantt chart illustrating the optimal schedule is shown in Figure 6.
+Consider the optimal solution generated by the optimization process. By combining the as-
+ 
+Figure 5: different values relation of decision variables and parameters of the illustrative example
+signments of the worker’s Wk∗,m with their respective profiles fk,p, we are able to obtain the ideal assignment of profiles to workstations, represented by M∗p,m = Pk∈K Wk∗,m fk,p ∀p ∈ P,m ∈ M. This optimal assignment not only Maximizes the efficiency of the production system but also ensures that each worker is assigned to a task that best aligns with their particular behavior. To show the efficiency of the model in the case of several products, we set the minimum demand I. To better understand and verify the results, we present the Gantt chart of the optimal solution obtained in Figure 6. The production horizon is limited to 26 time periods, within which seven jobs are processed. The optimization algorithm has assigned worker k=5, belonging to profile 2, to workstation 1, worker 3, belonging to profile 3, to workstation 2, and worker 2, belonging to profile 1, to workstation 3. Furthermore, the algorithm schedules the jobs by starting with three jobs of type 3 (in blue), followed by one job of type 1 (orange), one job of type 2 (green), one job of type 1 (orange), and finally, the last job of type 2 (green).
+Different times used for the implementation of the algorithm are illustrated, such as processing time (τt,m), completion time (C j,m), and cumulative processing time (ΠCj,m). This example demonstrates that the proposed model provides a feasible and logical solution that takes into account different human profiles and different workers belonging to different profiles.
+ 
+Figure 6: Gantt chart of the obtained solution of the illustrative example
+4.	Numerical experiments and discussion
+4.1.	Simulation results
+We employed the NetLogo 6.2.1 software, equipped with its programming language designed for multi-agent modeling systems (MAS), to develop the simulator based on our MAS model (see Figure 7). Our simulations were based on an example inspired by a case study of the annual preparation of educational robots used in the robotics practical works of a French engineering school. This enables the determination of the number of workstations, the processing time for each one, and the identification of distinct non-productive zones. Although the observation of the use case does not allow for the definition of six profiles, we’ve created additional profiles to encompass a broad range of profiles, from the robotic profile to the non-punctual profile that spends only 70% of its time in the productive zone. Given that the use case entails six workstations, we presume that, in the ideal scenario, each worker is exclusively assigned to one workstation. The simulation represented a dual-resource-constrained flow-shop production system consisting of six workstations in the productive zone and three non-productive zones that represent reasons for workers to temporarily leave their workstation, such as a personnel call, lunch break, or treatment in the infirmary as presented in Figure 7. Each worker was responsible for performing one or several specific production operations using a set of equipment associated with their workstation. The use of the simulator allows us to show the movement of workers between the workstations (Wsi) and the non-productive zones. The product is represented by boxes moving through the production line. Their transformation is represented by a modification of the color of the product from black to white.
+To study the impact of different human behaviors on the productivity of dual-resource (human and machine) production systems, we conducted multiple simulations using a Markov chain-based model of human behavior within a multi-agent system (MAS). In each simulation, the workers were assigned specific operations based on their workstation, and their movements between ’productive’ and ’non-productive’ states were determined by their behavioral profile. Six different profiles of worker behavior were proposed, each represented by a Markov chain with its own transition matrix. The six profile matrices were empirically designed to represent a range between two
+ 
+Figure 7: Overview of the simulation environment
+different extreme situations: i) workers who remain at their workstation throughout the working time and do not move to any NPZ, and ii) workers who tend to have short tenures at the workplace and frequently move between different NPZs. To define the parameters of any model like ours, the majority of existing studies are based on data from case studies, datasets or hypotheses. Although we reviewed some data in the literature, we found that it was not suitable for our study, as some were inapplicable to a production system such as ours (e.g., construction industry), while others did not allow us to generate exploitable profile matrices (e.g., datasets of MTBI personality type test). This is why we adopted an empirical approach to define different behavioral profiles, including in particular two extreme cases of profiles in order to enrich our analysis. These matrices were used to differentiate between the various worker profiles. The six generic profiles of worker behavior were represented by the following Markov chain transition matrices:
+Each Markov chain consists of four states, which are determined by the workers’ positions and activities. The workers can either be in a productive zone, where they are working at their assigned workstations (PZ), or a non-productive zone (NPZ). The NPZ is where workers can be found taking a coffee or lunch break, making a personal call or taking a bathroom break, or being in the infirmary for care.
+The transition probabilities between these states differ depending on the worker profile. The profiles considered in the simulation aim to cover all possible situations, ranging from the “as-” profile (P0), where the worker does not move from the working zone, to the ’undisciplined/disruptive’
+ 1  111
+P0 =	0	0
+0	0
+0	0
+0	0	0  
+0
+0
+0	 .95
+0  0.1195
+P1 =	0.05	0
+0.05	0
+	0	0
+	0	0	0  
+0
+0
+0
+		.9
+0  0.1195
+P2 =	0.1
+0.05
+0
+0	0	0  
+0	0 0	0
+0	0			.7
+0  0.1195
+P3 =		0.3	0
+0.05	0
+	0	0
+	0	0	0  
+0
+0
+0
+ .7
+0  011.7
+P4 =	0.3
+0.3
+0
+0	0	0  
+0	0 0	0
+0	0	 .8
+0  000.6
+P5 =	0.2	0
+0.2	0.1
+0.3	0.4
+0.3	0.3	0	 
+0.1 0.3
+0.4
+profile such as profile P5. In this simulation example, we make the following assumptions: i) only one type of product is manufactured, ii) each worker is assigned to a single and permanent workstation, iii) product transfer time between workstations is negligible, and iv) there is no setup time or changeover time between production runs.
+Other input parameters used in the simulation are as follows: • Simulation time horizon: 1 week of 5 working days, 8 hours per day
+•	Workstations’ processing times:
+PT = [1,4,2,4,1,3] for the workstations WS1 to WS6, respectively.
+•	Workers’ profiles: P0 (Ideal), P1, P2, P3, P4 and P5
+•	Scenarios of profiles assignment: we simulated 36 scenarios, representing different combinations of workers’ profiles assigned to workstations.
+–	Global scenarios (6):
+*	G0: AP = [0,0,0,0,0,0] (Perfect) *	Gk: AP = [k,k,k,k,k,k], k = 1,2,..,5
+–	Mixed scenarios (30):
+*	Mk1: AP = [k,0,0,0,0,0], k = 1,2,..,5
+*	Mk2: AP = [0,k,0,0,0,0], k = 1,2,..,5
+*	Mk3: AP = [0,0,k,0,0,0], k = 1,2,..,5
+*	Mk4: AP = [0,0,0,k,0,0], k = 1,2,..,5
+*	Mk5: AP = [0,0,0,0,k,0], k = 1,2,..,5
+*	Mk6: AP = [0,0,0,0,0,k], k = 1,2,..,5
+•	Gk: the value of the Global scenarios
+•	%gap: The percentage gap of the productivity of a given scenario (π(s)) compared to a reference scenario (π(s0)), %gap =  .
+Table 2 presents the simulation results, showing the level of productivity achieved by each scenario. In the Table 2, each scenario is defined by a number and an ID, we can observe the column operator profile assignment the ID of the profile assigned to each Workstation. In the column productivity we can read the simulated productivity of the scenario and the the simulated productivity of the global scenario of this profile and finally the gap between this two values. For example, the scenario 31 that have the ID : M51 we can see that the worker of the profile 5 is assigned to the workstation WS 1 and the profile 0 is assigned to all the other workstations this can be formulated by [5, 0, 0, 0, 0, 0]. The productivity of this scenario is 597 produced unit. The number of units produced with the profile 5 in the global scenario is 563 (result of the scenario G5), the gap between this two values is   = 6%
+Out of 35 scenarios, 20 performed equally well as the perfect scenario where all workers have the ideal profile.This finding suggests that the impact of each profile on productivity can vary depending on the workstation to which it is assigned. Further examination of the results reveals that the productivity level decreases significantly when profiles #3 or #4 are assigned to bottleneck workstations such as WS2 or WS4. Therefore, it is evident that the allocation of workers to specific workstations affects productivity, and careful consideration of the profiles of the workers is necessary to optimize overall productivity.
+		Operator profiles assignment	Productivity (u)	
+#	ID	WS1	WS2	WS3	WS4	WS5	WS6		Gk	%gap
+1	G0	0	0	0	0	0	0	597	-	-
+2	G1	1	1	1	1	1	1	564	-	-
+3	G2	2	2	2	2	2	2	564	-	-
+4	G3	3	3	3	3	3	3	533	-	-
+5	G4	4	4	4	4	4	4	533	-	-
+6	G5	5	5	5	5	5	5	563	-	-
+7	M11	1	0	0	0	0	0	597	564	5.9
+8	M12	0	1	0	0	0	0	567	564	0.5
+9	M13	0	0	1	0	0	0	597	564	5.9
+10	M14	0	0	0	1	0	0	567	564	0.5
+11	M15	0	0	0	0	1	0	597	564	5.9
+12	M16	0	0	0	0	0	1	597	564	5.9
+13	M21	2	0	0	0	0	0	597	564	5.9
+14	M22	0	2	0	0	0	0	567	564	0.5
+15	M23	0	0	2	0	0	0	597	564	5.9
+16	M24	0	0	0	2	0	0	567	564	0.5
+17	M25	0	0	0	0	2	0	597	564	5.9
+18	M26	0	0	0	0	0	2	597	564	5.9
+19	M31	3	0	0	0	0	0	597	533	12.0
+20	M32	0	3	0	0	0	0	535	533	0.4
+21	M33	0	0	3	0	0	0	597	533	12.0
+22	M34	0	0	0	3	0	0	537	533	0.8
+23	M35	0	0	0	0	3	0	597	533	12.0
+24	M36	0	0	0	0	0	3	597	533	12.0
+25	M41	4	0	0	0	0	0	597	533	12.0
+26	M42	0	4	0	0	0	0	537	533	0.8
+27	M43	0	0	4	0	0	0	597	533	12.0
+28	M44	0	0	0	4	0	0	538	533	0.9
+29	M45	0	0	0	0	4	0	597	533	12.0
+30	M46	0	0	0	0	0	4	597	533	12.0
+31	M51	5	0	0	0	0	0	597	563	6.0
+32	M52	0	5	0	0	0	0	566	563	0.5
+33	M53	0	0	5	0	0	0	597	563	6.0
+34	M54	0	0	0	5	0	0	568	563	0.9
+35	M55	0	0	0	0	5	0	597	563	6.0
+36	M56	0	0	0	0	0	5	597	563	6.0
+Table 2: Results of all tested scenarios (Simulation)
+Based on the results, we will attempt to discuss the effect of operator placement on the production line and how one can benefit from the performance difference to place these operators in a favorable position.
+ 
+Profile indices
+Figure 8: Effect of profile assignment strategies on productivity
+Figure 8 displays the percentage decrease in productivity, compared to the perfect profile, for each profile in both mixed scenarios (on average) and global scenarios. For example, if profile #2 is assigned to all workstations (global scenario), there is a reduction of 6% in productivity compared to the perfect profile (green bar). However, in the mixed scenario, this reduction drops to an average of 2% (red bar).
+The profiles with the highest average slowdown in productivity is #4 and #3, which results in an 11% reduction. This is because the probability of staying at a workstation is only 0.7 in the corresponding Markov chain.
+Based on the results above, we can define a ranking of workstation assignments regarding the throughput performance for each profile. The ideal worker profile is ranked first for all workstations, which means that we obtain the maximum throughput when it is placed in any workstation. The other worker’s profiles reduce the throughput when placed on the bottleneck stations (#2 and #4). For profiles P1 and P2, the assignment of the worker to WS1, WS3,WS5, or WS6 gives the maximum throughput of 597 (Rank1), followed by WS2, and WS4 with a throughput of 567 (Rank2). Similarly, Profiles P3, P4, and P5 are best ranked with workstations WS1, WS3,WS5, or WS6 have the lowest processing time, and obtain a rank 2 when assigned to WS4 with a throughput of 538, it also obtains the rank 3 when assigned to the WS2 with a throughput of 537.
+Although the chosen scenarios are very restrictive, these results demonstrate how human behavior can negatively impact productivity and highlight the importance of an optimized allocation of different worker profiles to workstations. To address this issue, the following section proposes an effective optimization method for selecting the most suitable allocation of a group of workers with diverse behavioral profiles to a given number of workstations.
+4.2.	Optimization results
+The mathematical model presented in the previous section has been implemented using the Gurobi optimization solver library within Julia programming language.The models have been run on a PC with Intel(R) Core(TM) i9-14900HX 2.20 GHz CPU 2.40 GHz processor and 32.0 GB RAM. We conducted experiments using the same instance as the experiments using the simulation method described in the previous section, which included six workstations and six distinct behavioral profiles of workers. Furthermore, we considered three different types of products in our analysis {t1,t2,t3}. Other input parameters used in the optimization process are as follows:
+•	The production mix: (I1, I2, I3)
+•	The processing times τt,m of each product type on each workstation are given as follows:
+–	t1 : WS1(1) , WS2(4) , WS3(2) , WS4(4) , WS5(1) ,WS6(3) with a nominal cycle time of 4
+–	t2 : WS1(2) , WS2(1) , WS3(2) , WS4(1) , WS5(4) ,WS6(3) with a nominal cycle time of 4
+–	t3 : WS1(1) , WS2(3) , WS3(3) , WS4(3) , WS5(3) ,WS6(3) with a nominal cycle time of 3 • H time horizon of production 2400 minute
+•	λ1p average duration of the working time period of a worker with profile p. The values of this parameter for profiles p0, p1, p2, p3, p4, and p5 are respectively 2400, 94, 85, 43.5, 38 and 80
+•	λ0p average duration of the absence time period of a worker with profile p. The values of this parameter for profiles p0, p1, p2, p3, p4, and p5 are respectively 1, 5, 4.9, 4.7, 4.6 and 4.8.
+To capture the potential variability in worker profiles and production mix, we defined 75 unique scenarios, each with varying numbers of workers belonging to each profile and production mix. These scenarios were then organized into nine distinct groups, labeled “GA” to “GI”, as follows:
+•	In the Group A scenarios, six workers with the same profile are assigned to test the overall impact of this profile on +productivity and to classify the profiles.
+•	In the scenarios of Group B, 5 workers with profile 0 (perfect profile) and 1 worker with a different profile are assigned to deduce the partial impact of each profile on each worksta-
+tion.
+•	In the scenarios of Groups C, D, E, and F, the same strategy as in Scenario B is adopted, but with a gradual decrease in the number of workers with profile 0. This will allow testing the partial effect of each profile while the other workstations are perfect.
+•	The scenario of Group G is a scenario in which the profiles were randomly selected to study the impact of a combination of profiles on productivity.
+•	In all scenarios (A to G), only the production of a type 1 product is allowed in order to test only the effect of the worker allocation on the productivity of the system.
+•	In scenarios of Group H, we allow the production of several types of product to test the effect of profile allocation and scheduling of jobs on the productivity of the system.
+In order to assess the efficiency of the optimal solution, the latter is compared to the “worst assignment” solution for each scenario. The worst assignment of workers to jobs is achieved by iteratively assigning the most undisciplined worker (highest ratio λ0p/(λ0p + λ1p)) to the most important production workstation (bottleneck) and vice versa.
+Each scenario runs on a time horizon of one week of five working days, eight hours per day, that is, H = 2400 hours. The result of each tested scenario is characterized by:
+GR	ID of the group of scenarios, GA to GH
+ID	ID of scenario, which is its number that ranges from 1 to 62
+(n0,..,n5)	Number of workers available in each profile p ∈ {0,1,2,3,4,5}
+(I1,.., I3)	Production mix, where:
+
+ 0 if the type t product should not be produced It =
+	 qmint	if at least qmint	products of type t must be produced
+ ,..,a∗6)	Optimal assignment of profiles to workstations. obj∗	Productivity (throughput) of the optimal solution.
+	 )	Optimal quantities for each type of product.
+(aw1 ,..,aw6 )	Worst assignment of profiles to workstations.
+objw	Productivity of the worst solution.
+%gap	Percentage gap of the worst solution compared to the optimal one: obj∗ − objw
+%gap =	 .
+obj∗
+cpu [min]	Computation time in minutes.
+The results of the defined scenarios are presented in Table 3, Table 4, Table 5, and Table 7.
+		Inputs	Optimal assignment		
+		Profiles	Mixprod			
+GR	ID	(n0,..,n5)	(I1,.., I3)	 ,..,a 	obj∗	 ,...,q 	%gap	cpu [min]
+	1	6,0,0,0,0,0	1,0,0	0,0,0,0,0,0	597	597,0,0	0.0 (Ref.)	9.2
+	2	0,6,0,0,0,0	1,0,0	1,1,1,1,1,1	567	567,0,0	5.0	10.5
+	3	0,0,6,0,0,0	1,0,0	2,2,2,2,2,2	564	564,0,0	5.5	10.4
+GA	4	0,0,0,6,0,0	1,0,0	3,3,3,3,3,3	536	536,0,0	10.2	10.4
+	5	0,0,0,0,6,0	1,0,0	4,4,4,4,4,4	528	528,0,0	11.5	10.3
+	6	0,0,0,0,0,6	1,0,0	5,5,5,5,5,5	562	562,0,0	5.8	10.4
+Table 3: Results of the scenarios of Group A
+From Table 2 and Table 3, we conducted a comparative analysis of the results obtained through simulation and those obtained through optimization . The results show that the two methods are equivalent and that the perfect profile (”Profile 0”) allows for the maximum value of the objective function to be achieved. Moreover, the tested profiles can be ranked in terms of their efficiency, from the most effective to the least effective, as follows: 0, 1, 2, 5, 3, and 4.
+ 
+Group A scenarios
+Figure 9: Comparison of profiles across global assignment scenarios results
+		Inputs	Optimal assignment	Worst assignment		
+		Profiles	Mixprod				
+GR	ID	(n0,..,n5)	(I1,.., I3)	 ,..,a 	obj∗	 ,..., 	(aw1 ,..,aw6 )	objw	%gap	cpu [min]
+	7	5,1,0,0,0,0	1,0,0	1,0,0,0,0,0	597	597,0,0	0,1,0,0,0,0	567	5.0	10.3
+	8	5,0,1,0,0,0	1,0,0	2,0,0,0,0,0	597	597,0,0	0,2,0,0,0,0	564	5.5	10.3
+GB	9	5,0,0,1,0,0	1,0,0	0,0,0,0,3,0	597	597,0,0	0,3,0,0,0,0	536	10.2	10.2
+	10	5,0,0,0,1,0	1,0,0	0,0,0,0,4,0	597	597,0,0	0,4,0,0,0,0	528	11.6	8.8
+	11	5,0,0,0,0,1	1,0,0	0,0,0,0,5,0	597	597,0,0	0,5,0,0,0,0	562	5.9	8.7
+Table 4: Results of mixed scenarios Group B
+Table 4 presents the results of the scenarios considered in Group B (GB), which are comparable
+to the mixed scenario in the simulation section (in Table 2 -id ∈ {7..12}- from M11 to M16). The optimization process provides the optimal assignments of workers with non-perfect profiles, which ensures efficient use of resources and high-quality results.
+All proposed solutions achieve optimal results when the perfect profile is assigned to the bottleneck workstations ( workstation 2 and workstation 4). The worst assignment occurs when the non-perfect profile is assigned to the first bottleneck workstation ( workstation 2). Similar results can be obtained by assigning the non-perfect profile to the second bottleneck workstation (Machine 4). This confirms the classification obtained from the experimentation in group A (see Table 3).
+ 
+	GB7∗	M11	M12	M13	M14	M15	M16	GB7W
+Figure 10: Variation in throughput among simulated mixed scenarios compared to the throughput achieved with optimal and worst assignments (example for M11 to M16 and GB-7)
+To compare optimization results with simulation (Figure 10) for mixed scenarios, we analyzed, for example, scenario 7 in Table 4 to simulations (M11 to M16) (c.f. Table 2) with k = 1. Simulation results ranged between the worst and best optimization solutions, confirming the reliability of optimization across all scenarios.
+		Inputs	Optimal assignment		Worst assignment	
+		Profiles	Mixprod				
+GR	ID	(n0,..,n5)	(i1,i2,i3)	 ,..,a 	obj∗	 ,...,q 	(aw1 ,..,aw6 )	objw	%gap	cpu [min]
+	12	4,2,0,0,0,0	1,0,0	1,0,0,0,1,0	597	597,0,0	0,1,0,1,0,0	567	5.0	12.7
+	13	4,0,2,0,0,0	1,0,0	2,0,0,0,2,0	597	597,0,0	0,2,0,2,0,0	564	5.5	16.1
+GC	14	4,0,0,2,0,0	1,0,0	3,0,0,0,3,0	597	597,0,0	0,3,0,3,0,0	536	10.2	16.1
+	15	4,0,0,0,2,0	1,0,0	4,0,0,0,4,0	597	597,0,0	0,4,0,4,0,0	528	11.5	16.2
+	16	4,0,0,0,0,2	1,0,0	5,0,0,0,0,5	597	597,0,0	0,5,0,5,0,0	562	5.8	16.1
+	17	3,3,0,0,0,0	1,0,0	1,0,0,0,1,1	597	597,0,0	0,1,1,1,0,0	567	5.0	16.2
+	18	3,0,3,0,0,0	1,0,0	2,0,0,0,2,2	597	597,0,0	0,2,2,2,0,0	564	5.5	12.8
+GD	19	3,0,0,3,0,0	1,0,0	3,0,0,0,3,3	597	597,0,0	0,3,3,3,0,0	536	10.2	12.7
+	20	3,0,0,0,3,0	1,0,0	4,0,4,0,4,0	597	597,0,0	0,4,4,4,0,0	528	11.5	10.9
+	21	3,0,0,0,0,3	1,0,0	5,0,0,0,5,5	597	597,0,0	0,5,5,5,0,0	562	5.8	10.9
+	22	2,4,0,0,0,0	1,0,0	1,0,1,0,1,1	596	596,0,0	0,1,1,1,0,1	567	4.8	11.5
+	23	2,0,4,0,0,0	1,0,0	2,0,2,0,2,2	596	596,0,0	0,2,2,2,0,2	564	5.3	11.7
+GE	24	2,0,0,4,0,0	1,0,0	3,0,3,0,3,3	596	596,0,0	0,3,3,3,0,3	536	10.0	11.8
+	25	2,0,0,0,4,0	1,0,0	4,0,4,0,4,4	596	596,0,0	0,4,4,4,0,4	528	11.4	11.8
+	26	2,0,0,0,0,4	1,0,0	5,0,5,0,5,5	596	596,0,0	0,5,5,5,0,5	562	5.7	11.4
+	27	1,5,0,0,0,0	1,0,0	1,0,1,1,1,1	567	567,0,0	1,1,1,1,0,1	567	0.0	11.5
+	28	1,0,5,0,0,0	1,0,0	2,0,2,2,2,2	564	564,0,0	2,2,2,2,0,2	564	0.0	11.6
+GF	29	1,0,0,5,0,0	1,0,0	3,0,3,3,3,3	536	536,0,0	3,3,3,3,0,3	536	0.0	10.3
+	30	1,0,0,0,5,0	1,0,0	4,4,4,0,4,4	528	528,0,0	4,4,4,4,0,4	528	0.0	10.6
+	31	1,0,0,0,0,5	1,0,0	5,5,5,0,5,5	562	562,0,0	5,5,5,5,0,5	562	0.0	10.6
+Table 5: Results of the GC, FD, GE, and GF scenario groups
+When comparing Table 3, Table 4, and Table 5, it can be inferred that the scenarios of the GC, GD, GE, and GF scenario groups fall between the GB scenario (minimum) and the GA scenario (maximum), in terms of the impact of each profile on throughput. The observation of the gap in each group correlates with the ranking of profiles deduced from the results of scenarios GA. In fact, we obtain the most important gap each time with scenarios 10,15, 20, and 25 where profile 5 is selected. By the same reasoning, the lowest gap is obtained by selecting profile number 1, as can be observed in Table 4 and Table 5.
+The gap decreases when there are more workers with the same profile due to the degradation of the optimal assignment. For instance, when the number of workers with the fourth profile n4 increases from 1 to 6 in scenarios 10, 15, 20, 25, 30, and 5, the corresponding gaps are 11.6, 11.5, 11.5, 11.4,0, and 0, respectively. We can also observe that the optimal solution for scenarios with more than two perfect profiles can reach the maximum throughput value because the number of perfect profiles is greater than or equal to the number of bottlenecks workstations. In the case of the product of type 1 type 1, there are two bottlenecks workstations (Ws2 and Ws4), which are manipulated by a perfect profile in scenarios of groups GC, GD, GE, and GB. In scenarios GF and GA, there is only one perfect profile, which is not enough to reach the maximum throughput (597). In the scenarios of groups GF and GA, the worst and the best scenarios provide the same throughput because the optimal worker allocation cannot avoid the effect of the non-perfect profile and provide the worst throughput of the other groups.
+		Inputs	Optimal assignment	Worst assignment		
+		Profiles	Mixprod				
+	ID	(n0,..,n5)	(I1,.., I3)	 ,..,a 	obj∗	 ,...,q 	(aw1 ,..,aw6 )	objw	%gap	cpu [min]
+	32	0,1,1,1,1,2	1,0,0	5,2,3,1,5,4	564	564,0,0	2,4,5,3,1,5	528	6.3	10.9
+	33	0,2,2,1,1,0	1,0,0	4,1,2,1,3,2	567	567,0,0	1,4,2,3,1,2	528	6.8	10.7
+	34	1,1,0,3,0,1	1,0,0	3,0,5,1,3,3	567	567,0,0	1,3,3,3,0,5	536	5.4	10.7
+	35	1,0,0,3,1,1	1,0,0	3,5,3,0,4,3	562	562,0,0	5,4,3,3,0,3	528	6.0	10.8
+	36	0,3,0,0,3,0	1,0,0	4,1,1,1,4,4	567	567,0,0	1,4,4,4,1,1	528	6.8	10.8
+	37	1,1,1,1,0,2	1,0,0	3,1,5,0,2,5	567	567,0,0	1,3,5,5,0,2	536	5.4	10.8
+	38	0,0,4,2,0,0	1,0,0	3,2,2,2,2,3	564	564,0,0	2,3,2,3,2,2	536	4.9	10.4
+	39	2,3,0,1,0,0	1,0,0	3,0,1,0,1,1	596	596,0,0	0,3,1,1,0,1	536	10.0	10.8
+	40	0,5,0,0,1,0	1,0,0	4,1,1,1,1,1	567	567,0,0	1,4,1,1,1,1	528	6.8	15.2
+	41	1,0,5,0,0,0	1,0,0	2,0,2,2,2,2	564	564,0,0	2,2,2,2,0,2	564	0.0	15.2
+	42	0,0,3,1,2,0	1,0,0	3,2,4,2,4,2	564	564,0,0	2,4,3,4,2,2	528	6.3	15.3
+	43	1,0,4,0,1,0	1,0,0	2,0,2,2,4,2	564	564,0,0	2,4,2,2,0,2	528	6.3	16.0
+GG	44	0,1,0,5,0,0	1,0,0	3,3,3,1,3,3	536	536,0,0	3,3,3,3,1,3	536	0.0	16.1
+	45	0,1,2,0,2,1	1,0,0	2,2,5,1,4,4	564	564,0,0	2,4,5,4,1,2	528	6.3	15.5
+	46	0,0,3,0,3,0	1,0,0	2,2,4,2,4,4	564	564,0,0	2,4,4,4,2,2	528	6.3	15.6
+	47	1,4,0,0,1,0	1,0,0	1,0,1,1,1,4	567	567,0,0	1,4,1,1,0,1	528	6.8	15.6
+	48	0,3,0,1,1,1	1,0,0	3,1,5,1,1,4	567	567,0,0	1,4,5,3,1,1	528	6.8	15.7
+	49	0,0,3,2,1,0	1,0,0	3,2,4,2,2,3	564	564,0,0	2,4,3,3,2,2	528	6.3	16.6
+	50	0,5,0,0,1,0	1,0,0	4,1,1,1,1,1	567	567,0,0	1,4,1,1,1,1	528	6.8	13.5
+	51	3,1,0,2,0,0	1,0,0	3,0,1,0,3,0	597	597,0,0	0,3,1,3,0,0	536	10.2	13.8
+	52	1,2,0,2,1,0	1,0,0	3,0,1,1,3,4	567	567,0,0	1,4,3,3,0,1	528	6.8	13.6
+	53	0,1,1,0,4,0	1,0,0	1,4,4,2,4,4	564	564,0,0	2,4,4,4,1,4	528	6.3	13.3
+	54	2,0,1,0,1,2	1,0,0	4,0,2,0,5,5	596	596,0,0	0,4,5,5,0,2	528	11.4	13.4
+	55	0,0,2,0,4,0	1,0,0	4,2,4,2,4,4	564	564,0,0	2,4,4,4,2,4	528	6.3	13.6
+Table 6: Results of the GG scenario group
+Table 6 presents the results of various scenarios that take into account a mix of profiles. It should be noted that only the scenario with more than two perfect profiles is able to achieve the maximum throughput of 597, which confirms our previous observation in Table 4. The optimal allocation strategy involves assigning the best available profiles to the bottleneck workstation with the longest processing time. We also observe that the largest gaps between the best and worst allocation strategies are obtained when multiple perfect profiles are available, owing to the high throughput of the optimal solution. Conversely, the presence of several similar profiles tends to reduce the gap between the best and worst allocation strategies, as evidenced by scenarios 41 and 44. These findings provide valuable insights for optimizing resource allocation, and improving overall system performance in manufacturing environments. To analyze the effect of profile heterogeneity.To analyze the effect of profile heterogeneity in the production throughput, we extract from Table 6 the scenarios that do not include the perfect profile, i.e., with n0=0, and compare their performances with the perfect scenario as shown in Figure 11. For each mixed assignment (MA) scenario we calculate its percentage throughput deviation %gap compared to the reference scenario (with a throughput of 597) and its weighted average gap of the global assignment (WAVG GA) scenarios of the profiles composing it. For instance, the weighted average gap of scenario 32 is (1×5+1×5.5+1×10.2+1×11.5+2×5.8)/6 = 7.3%. This allows us to know how little difference heterogeneity has made to productivity. GA1&GA2&GA5 line represents the best values of gap achieved among all global scenarios, namely GA-1, GA-2, and GA-5, while GA3&GA4 represent the scenarios with the worst gap, namely GA-3 and GA-4. We observe that most heterogeneous scenarios give a significantly better gap than the associated weighted average homogeneous scenarios. Moreover, we can also see that heterogeneity usually allows an absolute gap lower than the best one obtained with homogeneous teams, i.e., GA-1, GA-2, or GA-5.
+ 
+Scenario ID
+Figure 11: Effect of heterogeneity
+The results obtained clearly demonstrate the significant impact of operator behavior on the productivity of a production system, even if it is a relatively straightforward system producing a single type of product in a dual-resource-constrained flow-shop production system . The findings underscore the importance of recognizing the role of human factors in manufacturing processes and highlight the need for targeted interventions to optimize performance. These insights have broader implications for enhancing productivity and efficiency in a variety of industrial settings.
+		Inputs	Optimal assignment	Worst assignment		
+		Profiles	Mixprod				
+GR	ID	(n0,..,n5)	(I1,.., I3)	 ,..,a 	obj∗	 ,...,q 	(aw1 ,..,aw6 )	objw	%gap	cpu [min]
+	56	1,1,1,1,1,1	1,0,0	4,2,3,0,1,5	536	536,0,0	1,4,5,3,0,2	493	8.0	13.2
+	57	1,1,1,1,1,1	0,1,0	1,0,3,4,2,5	565	0,565,0	1,4,5,3,0,2	536	5.0	13.6
+	58	1,1,1,1,1,1	0,0,1	3,0,5,2,4,1	661	0,0,661	1,4,5,3,0,2	651	1.4	13.9
+GH	59	1,1,1,1,1,1	1,1,0	4,0,3,2,1,5	579	24,555,0	1,4,5,3,0,2	550	4.9	13.3
+	60	1,1,1,1,1,1	1,0,1	4,0,3,1,2,5	661	5,0,656	1,4,5,3,0,2	651	1.4	13.7
+	61	1,1,1,1,1,1	0,1,1	3,0,4,2,5,1	680	0,168,512	1,4,5,3,0,2	665	2.1	13.9
+	62	1,1,1,1,1,1	1,1,1	1,4,3,0,2,5	704	34,86,584	1,4,5,3,0,2	675	4.0	13.7
+Table 7: Results of the GH scenario group
+The aim of the last scenario group (GH) is to test the efficiency of the proposed model when several product types are considered. In this situation, the optimization model will determine the best assignment of workers, the amount of production for each product type, and the scheduling of all product operations in order to Maximize production throughput. We also considered several product mixes (ProdMix), as shown in Table 7. We notice that Mixprod has a significant impact on optimal assignment and productivity.
+After analyzing scenarios 56, 57, and 58, it is clear that selecting type 3 of the product leads to the highest throughput. This is mainly due to its better workstation balancing, which results in a shorter cycle time of only 3-time units. Although type 3 has the longest total processing time of 16-time units, it more than compensates for it with its other advantages, making it the optimal choice to achieve maximum throughput.
+Scenarios 59, 60, and 61 propose the production of two types of products with minimal production (production mix) of one part qmint = 1. When comparing scenario 59 (selection of product types 1 and 2) with scenarios 56 (product type 1) and 57 (product type 2), it is clear that the productivity of scenario 59 has been improved due to the scheduling of jobs by product type. However, the optimal solution generates 5 products of type 1 and 116 of product type 2 due to the reduced total processing time of the type 2 product (15-time units for type 1 VS 11 time units for type 2) and the same nominal cycle time of 4- time units.
+In Scenario 60, we observe that the optimal solution involves producing 137 units of type 3 and only one unit of type 1. Conversely, scenario 58 revealed that the optimal solution includes 138 units of type 1. This indicates that the production of type 1 product is not ideal for maximizing throughput and is instead only necessary due to the constraint outlined in (6), which requires the production of at least one unit of type 1 product to be produced. The maximum throughput corresponds to scenario 62 (with an optimal throughput of 147), where all types of products are selected. This allows us to conclude that productivity increases as we have many product types. The optimal assignment of the worker profile tray is to increase the balance of the production line based on the punctuality of the profiles. For example, in scenario 56, the best profiles are assigned to the worst workstations which increases the balancing of the lines and increases the production system throughput.
+5.	Managerial insights
+This study emphasizes the critical role of effective human resource allocation strategies in achieving maximum throughput in manufacturing environments. Assignment of the best worker profiles to bottleneck workstations is particularly mandatory for success. The largest gaps between the best and worst allocation strategies are observed when multiple perfect profiles are available, highlighting the importance of such strategies. The problem becomes more complex when it is not easy to define the bottleneck workstation due to the production of different types of products with different processing times. The study also underscores the significant impact of operator behavior on productivity in a production system, highlighting the need to recognize human factors and implement targeted interventions for optimal performance. These insights can help improve productivity and efficiency in various industrial settings. Additionally, the study demonstrates that the selection of the right product type is essential to optimize the efficiency of an optimization model to maximize production throughput. Choosing the product with the shortest nominal cycle time in the production mix resulted in the highest throughput despite having other products with longer nominal cycle times.. Furthermore, a larger number of product types can increase productivity, and optimizing the assignment of worker profiles can improve line balancing and further increase production system throughput. Considering the inclusion and skill development of workers is a crucial aspect of tactical decision-making, which can be facilitated through team rotation and varying the production mix. We believe that implementing an algorithm can create a more inclusive environment, where individuals with profiles unsuitable for a particular workstation can be automatically reassigned to another workstation where they can effectively contribute to production. Finally, the study highlights the importance of selecting mixed-team workers, particularly in manufacturing systems with a high mix of production. Indeed, the results obtained from this study suggest that the consideration of teams with heterogeneous profiles, combined with optimized assignment strategies, tends to be more beneficial than relying on homogeneous teams evolving over time. The worker behavior based on stochastic modeling of the punctuality can be obtained from the record of operators actions and movements, which constitutes an objective and factual measure. This behavior model based on punctuality can be considered a symptom revealer of other hidden aspects, such as the operator’s well-being, the workstation’s adaptation to the worker, and the level of fatigue. Our research is driven by the human-centered approach to production planning, which seeks to tailor scheduling and task allocation to each worker’s unique profile. By considering these individual factors, managers can unlock significant improvements in workforce productivity.
+While the manager may not be able to determine the exact dynamic effect of one worker on another, assigning a specific worker with a particular behavior will still influence the assignment of other workers, whether they have equivalent or different behaviors and skills.
+6.	Conclusions and future works
+This work presents an approach for modeling, simulating, and optimizing the impact of human behavior on production throughput. A stochastic approach to model human behavior in terms of punctuality on the workstation is proposed and simulated in a dual resource flow-shop production system. A non-linear optimization model is proposed to provide the optimal assignment of workers to workstations the optimal scheduling of production operations, and the optimal mix of production to maximize production throughput, while considering the possibility of operations interruption. The results show that human behavior has an important influence on the productivity of the production system, especially when the number of product and worker profiles increases. The analyses of results demonstrate the complexity of selecting the best worker profile for the best workstation. especially in high-mix production systems. In dual-resource-constrained flow-shop production system, it is very important to ensure a good balance of the production line, and the assignment of human workers plays an important role in maximizing the throughput of the production system.
+By modeling human behavior and developing predictive models of worker performance and behavior, production planning can be optimized while taking into account the unique characteristics of each individual or a similar group (profile). This personalized approach has the potential to significantly enhance the overall productivity of the workforce. In this work, we demonstrate that punctuality, as a subtle indicator of a worker’s hidden aspects, significantly impacts production and performance metrics such as effective processing time and overall productivity. In particular, the frequent breaks taken by an operator may be an underlying symptom of factors such as fatigue, well-being, or motivation.
+One of the limits of the proposed optimization model is that it takes into account only one aspect affected by human behavior and a single objective, which is the maximization of the throughput. Moreover, it does not consider the possible evolution of operators’ behavioral profiles during the production planning horizon or dependently on the workstation and do not consider the interaction between operators that can lead to unexpected group behavior . All these considerations represent a potential future work that can be addressed.
+In the next step, we plan to improve our human behavior models by incorporating factors such as experience, skills, and personality to improve the accuracy of the proposed optimization model. Moreover, it will be worthwhile to develop approximate methods (e.g., meta-heuristics) to solve the proposed optimization model in order to be able to handle more realistic cases in terms of instance size. Another interesting perspective of this work involves the evolution of behavior through the improvement of skill levels and the impact of one worker on another within the same team. To validate our theoretical results, we will apply our approach to a real-world case study and observe the impact of optimal worker behavior on system performance in a dynamic environment. This will not only help validate our approach, but also provide valuable data for predicting worker states and integrating that information into an adaptive decision-making process for worker assignment and production task scheduling. The development of such realistic cases will also allow for the observation of phenomena such as group behavior and variation in human profiles and the testing and validation of new data collection and dynamic decisionmaking technologies. Our ultimate goal is to develop a robust and effective optimization model that considers the human factor in manufacturing processes to improve productivity and efficiency while also improving human well-being in a manufacturing environment.
+References
+[1]	H. Lyngstadaas, T. Berg, Harder, better, faster, stronger: digitalisation and employee well-being in the operations workforce, Production Planning & Control (2022) 1–18.
+[2]	P. Fantini, M. Pinzone, M. Taisch, Placing the operator at the centre of industry 4.0 design: Modelling and assessing human activities within cyber-physical systems, Computers & Industrial Engineering 139 (2020) 105058.
+[3]	M. Pinzone, F. Albe, D. Orlandelli, I. Barletta, C. Berlin, B. Johansson, M. Taisch, A framework for opera-` tive and social sustainability functionalities in human-centric cyber-physical production systems, Computers & industrial engineering 139 (2020) 105132.
+[4]	A. Raja Santhi, P. Muthuswamy, Industry 5.0 or industry 4.0 s? introduction to industry 4.0 and a peek into the prospective industry 5.0 technologies, International Journal on Interactive Design and Manufacturing (IJIDeM) (2023) 1–33.
+[5]	M. Messaadia, D. Baudry, A. Louis, S. Mahdikhah, R. Evans, J. Gao, T. Paquet, M. Sahnoun, B. Mazari, PLM adoption in SMEs context, Computer-Aided Design and Applications 13 (5) (2016) 618–627.
+[6]	B. Brik, M. Messaadia, M. Sahnoun, B. Bettayeb, M. A. Benatia, Fog-supported low latency monitoring of system disruptions in industry 4.0: A federated learning approach, ACM Transactions on Cyber-Physical Systems (2022).
+[7]	B. A. Kadir, O. Broberg, Human well-being and system performance in the transition to industry 4.0, International Journal of Industrial Ergonomics 76 (2020) 102936.
+[8]	A. Bailly, H. Tlahig, B. Bettayeb, M. Messaadia, M. Sahnoun, Human’s new roles to ensure resilience of industrial cyber-physical systems, in: 2020 IEEE Conference on Industrial Cyberphysical Systems (ICPS), Vol. 1,
+IEEE, 2020, pp. 453–458.
+[9]	N. Chen, N. Huang, R. Radwin, J. Li, Analysis of assembly-time performance (atp) in manufacturing operations with collaborative robots: a systems approach, International Journal of Production Research 60 (1) (2022) 277– 296.
+[10]	Y. Kose, E. Cevikcan, S. Ertemel, M. Murat, Game theory-oriented approach for disassembly line worker assignment and balancing problem with multi-manned workstations, Computers & Industrial Engineering 181 (2023) 109294.
+[11]	A. Dolgui, F. Sgarbossa, M. Simonetto, Design and management of assembly systems 4.0: systematic literature review and research agenda, International Journal of Production Research 60 (1) (2022) 184–210.
+[12]	A. Jamal, Work turnover and its impact on the quality of productivity in the industrial sector, Research in World
+Economy 10 (2019) 65. doi:10.5430/rwe.v10n4p65.
+[13]	O. A. Acar, M. Tarakci, D. van Knippenberg, Creativity and innovation under constraints: A cross-disciplinary integrative review, Journal of Management 45 (2018) 121 – 96. doi:10.1177/0149206318805832.
+[14]	C. Destouet, H. Tlahig, B. Bettayeb, B. Mazari, Flexible job shop scheduling problem under industry 5.0: A survey on human reintegration, environmental consideration and resilience improvement, Journal of Manufacturing Systems 67 (2023) 155–173.
+[15]	D. Battini, N. Berti, S. Finco, I. Zennaro, A. Das, Towards industry 5.0: A multi-objective job rotation model for an inclusive workforce, International Journal of Production Economics 250 (2022) 108619.
+[16]	M. Missimer, K.-H. Robert, G. Broman, A strategic approach to social sustainability–part 1: exploring the social` system, Journal of cleaner production 140 (2017) 32–41.
+[17]	M. Trost, T. Claus, F. Herrmann, Social sustainability in production planning: A systematic literature review,
+Sustainability 14 (13) (2022) 8198.
+[18]	S. Panagou, W. P. Neumann, F. Fruggiero, A scoping review of human robot interaction research towards industry 5.0 human-centric workplaces, International Journal of Production Research (2023) 1–17.
+[19]	A. M. Zanchettin, A. Casalino, L. Piroddi, P. Rocco, Prediction of human activity patterns for human–robot collaborative assembly tasks, IEEE Transactions on Industrial Informatics 15 (7) (2018) 3934–3942.
+[20]	M. Zhang, C. Li, Y. Shang, H. Huang, W. Zhu, Y. Liu, A task scheduling model integrating micro-breaks for optimisation of job-cycle time in human-robot collaborative assembly cells, International Journal of Production Research (2021) 1–12.
+[21]	S. Hjorth, D. Chrysostomou, Human–robot collaboration in industrial environments: A literature review on non-destructive disassembly, Robotics and Computer-Integrated Manufacturing 73 (2022) 102208.
+[22]	L. Liu, F. Guo, Z. Zou, V. G. Duffy, Application, development and future opportunities of collaborative robots
+(cobots) in manufacturing: A literature review, International Journal of Human–Computer Interaction (2022)
+1–18.
+[23]	F. Vicentini, Collaborative robotics: a survey, Journal of Mechanical Design 143 (4) (2021).
+[24]	A. Hentout, M. Aouache, A. Maoudj, I. Akli, Human–robot interaction in industrial collaborative robotics: a literature review of the decade 2008–2017, Advanced Robotics 33 (15-16) (2019) 764–799.
+[25]	R. Jahanmahin, S. Masoud, J. Rickli, A. Djuric, Human-robot interactions in manufacturing: A survey of human behavior modeling, Robotics and Computer-Integrated Manufacturing 78 (2022) 102404.
+[26]	A. Ferjani, A. Ammar, H. Pierreval, A. Trabelsi, F. Aubiere, A heuristic approach taking operators’ fatigue into` account for the dynamic assignment of workforce to reduce the mean flowtime, in: International Conference on Computers and Industrial Engineering, CIE45, Vol. 43, 2015, pp. 65–80.
+[27]	A. Ferjani, A. Ammar, H. Pierreval, S. Elkosantini, A simulation-optimization based heuristic for the online assignment of multi-skilled workers subjected to fatigue in manufacturing systems, Computers & Industrial Engineering 112 (2017) 663–674.
+[28]	C. Berlin, C. Adams, Production ergonomics: Designing work systems to support optimal human performance,
+Ubiquity press, 2017.
+[29]	M. Greig, J. Village, S. Dixon, F. Salustri, W. Neumann, Assessing human factors and ergonomics capability in organizations - The Human Factors Integration Toolset, Ergonomics 62 (2019) 1–30.
+[30]	M. Azarkhil, A. Mosleh, Dynamic behavior of operating crew in complex systems, in: 2014 Reliability and
+Maintainability Symposium, 2014, pp. 1–7, iSSN: 0149-144X.
+[31]	V. Di Pasquale, R. Iannone, S. Miranda, S. Riemma, et al., An overview of human reliability analysis techniques in manufacturing operations, in: Operations Management, Vol. 9, chapter, 2013, pp. 978–953.
+[32]	J.-Y. Dantan, A. Etienne, J. Petronijevic, A. Siadat, Tolerance & Time margin, Procedia CIRP 92 (2020) 51–56.
+[33]	R. K. Upadhyay, A. Singh, B. M. Singh, Human side of cybersecurity: an empirical study, International Journal of Business Information Systems 41 (3) (2022) 408–422.
+[34]	M. Sanchez-Aguayo, L. Urquiza-Aguiar, J. Estrada-Jim´ enez, Fraud detection using the fraud triangle theory and´ data mining techniques: A literature review, Computers 10 (10) (2021).
+[35]	I. Domarkiene, L. Ambrozaityt˙ e, L. Bukauskas, T. Ran˙ celis, S. Sˇ utterlin, B. Knox, K. Maennel, O. Maennel,¨ K. Parish, R. Lugo, A. Brilingaite, Cybergenomics: Application of behavioral genetics in cybersecurity, Behav-˙ ioral Sciences 11 (11) (2021).
+[36]	A. Moallem, Cybersecurity, privacy, and trust, in: Handbook of Computer Networks and Cyber Security, Wiley
+Online Library, 2021, pp. 1107–1120.
+[37]	M. H. Schia, The introduction of AI in the construction industry and its impact on human behavior, NTNU,
+2019.
+[38]	F. S. Kong, X. D. Kong, H. Y. Wu, Y. X. Zhang, P. D. Fang, Simulation Modeling of Production System Considering Human Behavior, in: 2020 IEEE International Conference on Industrial Engineering and Engineering Management (IEEM), 2020, pp. 123–127.
+[39]	G. Mossa, F. Boenzi, S. Digiesi, G. Mummolo, V. A. Romano, Productivity and ergonomic risk in human based production systems: A job-rotation scheduling model, International Journal of Production Economics 171 (2016) 471–477.
+[40]	N. Katiraee, M. Calzavara, S. Finco, D. Battini, O. Batta¨ıa, Consideration of workers’ differences in production systems modelling and design State of the art and directions for future research, International Journal of Production Research 59 (Mar. 2021).
+[41]	A. Ayough, B. Khorshidvand, Robust optimization for the integrated worker-cell assignment and sequencing problem in a lean u-shaped assembly line, Computers & Industrial Engineering 178 (2023) 109139.
+[42]	N. Bouaziz, B. Bettayeb, M. Sahnoun, A. Yassine, A. Latreche, Modeling and simulation of human behavior impact on production throughput, IFAC-PapersOnLine 55 (2022) 1740–1745.
+[43]	M. Dhiflaoui, H. E. Nouri, O. B. Driss, Dual-resource constraints in classical and flexible job shop problems: a state-of-the-art review, Procedia computer science 126 (2018) 1507–1515.
+[44]	M. Geurtsen, J. B. Didden, J. Adan, Z. Atan, I. Adan, Production, maintenance and resource scheduling: A review, European Journal of Operational Research 305 (2) (2023) 501–529.
+[45]	S. E. Hashemi-Petroodi, S. Thevenin, S. Kovalev, A. Dolgui, Operations management issues in design and control of hybrid human-robot collaborative manufacturing systems: a survey, Annual Reviews in Control 49 (2020) 264–276.
+[46]	D. Bogataj, D. Battini, M. Calzavara, A. Persona, The ageing workforce challenge: Investments in collaborative robots or contribution to pension schemes, from the multi-echelon perspective, International Journal of Production Economics 210 (2019) 97–106.
+[47]	A. Onay, C. Stampfer, H. Missbauer, A behavioral perspective on workload control concepts: The influence of order release on operators’ reaction behavior, International Journal of Production Economics 264 (May) (2023) 108956.
+[48]	F. Bentefouet, D. A. Nembhard, Optimal flow-line conditions with worker variability, International Journal of
+Production Economics 141 (2) (2013) 675–684.
+[49]	A. Lucchese, S. Digiesi, G. Mummolo, A stochastic-based model to assess the variability of task completion times of differently aged and experienced workers subject to fatigue, in: IFIP International Conference on Advances in Production Management Systems, Springer, 2023, pp. 745–759.
+[50]	C.-H. Lin, K.-J. Wang, A. A. Tadesse, B. H. Woldegiorgis, Human-robot collaboration empowered by hidden semi-markov model for operator behaviour prediction in a smart assembly system, Journal of Manufacturing Systems 62 (2022) 317–333.
+[51]	V. Vijayakumar, F. Sgarbossa, W. P. Neumann, A. Sobhani, Framework for incorporating human factors into production and logistics systems, International Journal of Production Research 60 (2) (2022) 402–419.
+[52]	S. Elkosantini, D. Gien, Integration of human behavioural aspects in a dynamic model for a manufacturing system, International Journal of Production Research 47 (10) (2009) 2601–2623.
+[53]	W.-L. Chang, S.-T. Yuan, A synthesized model of markov chain and ERG theory for behavior forecast in collaborative prototyping, Journal of Information Technology Theory and Application (JITTA) 9 (2) (2008) 5.
+[54]	S. Digiesi, A. A. Kock, G. Mummolo, J. E. Rooda, The effect of dynamic worker behavior on flow line performance, International Journal of Production Economics 120 (2) (2009) 368–377.
+[55]	N. Berti, S. Finco, O. Batta¨ıa, X. Delorme, Ageing workforce effects in dual-resource constrained job-shop scheduling, International Journal of Production Economics 237 (2021) 108151.
+[56]	S. Digiesi, D. Cavallo, A. Lucchese, C. Mummolo, Human cognitive and motor abilities in the aging workforce: An information-based model, Applied Sciences 10 (17) (2020) 5958.
+[57]	P. Korytkowski, Competences-based performance model of multi-skilled workers with learning and forgetting,
+Expert Systems with applications 77 (2017) 226–235.
+[58]	S. M. J. M. Al-E-Hashem, M. B. Aryanezhad, V. Deljoo, S. M. J. M. Al, Dynamic cell formation and the worker assignment problem: a new model, Springer 41 (2009) 329–342.
+[59]	X. Chu, D. Gao, S. Cheng, L. Wu, J. Chen, Y. Shi, Q. Qin, Worker assignment with learning-forgetting effect in cellular manufacturing system using adaptive memetic differential search algorithm, Computers & industrial engineering 136 (2019) 381–396.
+[60]	J. J. Green, C. C. Krejci, D. E. Cantor, A hybrid simulation model of helping behavior, in: 2017 Winter Simulation Conference (WSC), IEEE, 2017, pp. 1619–1630.
+[61]	M. Dalle Mura, G. Dini, Designing assembly lines with humans and collaborative robots: A genetic approach,
+CIRP Annals 68 (1) (2019) 1–4.
+[62]	M. Dalle Mura, G. Dini, Optimizing ergonomics in assembly lines: A multi objective genetic algorithm, CIRP
+Journal of Manufacturing Science and Technology 27 (2019) 31–45.
+[63]	R. Ramezanian, A. Ezzatpanah, Modeling and solving multi-objective mixed-model assembly line balancing and worker assignment problem, Computers & Industrial Engineering 87 (2015) 74–80.
+[64]	M. Liu, X. Yang, Bi-objective optimization for scheduling and multi-skilled worker assignments in the hybrid flow shop, IFAC-PapersOnLine 52 (2019) 2128–2133.
+[65]	J. C. Chen, Y.-Y. Chen, T.-L. Chen, Y.-H. Kuo, Applying two-phase adaptive genetic algorithm to solve multimodel assembly line balancing problems in tft–lcd module process, Journal of Manufacturing Systems 52 (2019) 86–99.
+[66]	N. Katiraee, M. Calzavara, S. Finco, O. Batta¨ıa, D. Battini, Assembly line balancing and worker assignment considering workers’ expertise and perceived physical effort, International Journal of Production Research (2022) 1–21.
+[67]	L. Wu, F. Cai, L. Li, X. Chu, Cross-trained worker assignment problem in cellular manufacturing system using swarm intelligence metaheuristics, Mathematical Problems in Engineering 2018 (2018) 1–15.
+[68]	M. Peron, S. Arena, G. J. L. Micheli, F. Sgarbossa, A decision support system for designing win–win interventions impacting occupational safety and operational performance in ageing workforce contexts, Safety science 147 (2022) 105598.
+[69]	L. Borba, M. Ritt, A heuristic and a branch-and-bound algorithm for the assembly line worker assignment and balancing problem, Computers & Operations Research 45 (2014) 87–96.
+[70]	M. Vila, J. Pereira, A branch-and-bound algorithm for assembly line worker assignment and balancing problems,`
+Computers and Operations Research 44 (2014) 105–114.
+[71]	S. E. Moussavi, M. Mahdjoub, O. Grunder, Productivity improvement through a sequencing generalised assignment in an assembly line system, International Journal of Production Research 55 (2017) 7509–7523.
+[72]	Q. Luo, Q. Deng, G. Xie, G. Gong, A pareto-based two-stage evolutionary algorithm for flexible job shop scheduling problem with worker cooperation flexibility, Robotics and Computer-Integrated Manufacturing 82 (2023) 102534.
+[73]	Y. Li, X. Chen, Y. An, Z. Zhao, H. Cao, J. Jiang, Integrating machine layout, transporter allocation and worker assignment into job-shop scheduling solved by an improved non-dominated sorting genetic algorithm, Computers & Industrial Engineering 179 (2023) 109169.
+[74]	J. Lundstrom, E. J¨	arpe, A. Verikas, Detecting and exploring deviating behaviour of smart home residents, Expert¨
+Systems with Applications 55 (2016) 429–440.
+[75]	V. G. Sanchez, O. M. Lysaker, N.-O. O. Skeie, Human behaviour modelling for welfare technology using hidden´ markov models, Pattern Recognition Letters 137 (2020) 71–79.
+[76]	A. Costa, V. Fernandez-Viagas, J. M. Framinan, Solving the hybrid flow shop scheduling problem with limited˜ human resource constraint, Computers & Industrial Engineering 146 (2020) 106545.
